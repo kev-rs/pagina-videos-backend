@@ -6,7 +6,6 @@ const session = async (req: RequestExt, res: Response<{ message: string; }>, nex
   try {
     const token = req.headers.authorization?.split(' ').pop();
     if(!token) return res.status(401).json({ message: 'UNAUTHORIZED - No token' });
-    console.log({ token, jwt });
     const jwtPayload = jwt.verify(token, String(process.env.JWT_SECRET));
     req.user = jwtPayload as TokenPayload
     next();

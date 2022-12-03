@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import { ResType } from "../interfaces/res.js";
 import { IUser } from "../interfaces/jwt.js";
 import { Prisma } from "@prisma/client";
+// import cookie from 'cookie-parser';
 
 const authSelect = Prisma.validator<Prisma.UserSelect>()({
   email: true, name: true, id: true
@@ -55,13 +56,20 @@ const signIn = async ( req: Request<any, any, LoginSchema>, res: Response<ResTyp
     name: user.name,
   }, `${process.env.JWT_SECRET}`, { expiresIn: '1h', mutatePayload: false });
 
-  res.status(200).send({
-    data: {
-      user: { email: user.email, id: user.id, name: user.name },
-      token,
-    },
-    message: 'Login successful',
-  });
+  res
+    .status(200)
+    .cookie('auth', token, {
+      secure: true,
+      httpOnly: true,
+      sameSite: 'none'
+    })
+    .send({
+      data: {
+        user: { email: user.email, id: user.id, name: user.name },
+        token,
+      },
+      message: 'Login successful',
+    });
 }
 
 const signOut = async (req: Request, res: Response) => {

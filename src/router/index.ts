@@ -5,13 +5,13 @@ import { fileURLToPath } from 'url';
 
 const router = Router();
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename);
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename);
 
 const route = (fileName: string) => fileName.split('.').shift();
 
-fs.readdirSync(__dirname).forEach(async (fileName) => {
-  if(!fileName.includes('index')) router.use(`/api/${route(fileName)}`, await import(`./${fileName}`).then(file => file.router));
+fs.readdirSync(dirname).forEach(async (fileName) => {
+  if(!fileName.includes('index')) router.use(`/api/${route(fileName)}`, await import(`./${route(fileName)}.js`).then(file => file.router));
 })
 
 export { router };
