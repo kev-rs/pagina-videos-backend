@@ -3,7 +3,7 @@ module.exports =  {
     {
       name: "app",
       script: "./build/app.js",
-      watch: ["./build"]
+      watch: true
     }
   ]
 }
