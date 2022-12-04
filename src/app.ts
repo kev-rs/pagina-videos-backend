@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import express, { Express } from 'express';
+import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import { router } from './router/index.js';
 import { PrismaClient } from '@prisma/client';
@@ -12,6 +12,9 @@ const port = process.env.PORT ?? 8080;
 app.use(cors());
 app.use(express.json());
 app.use(router);
+app.get('/', (req: Request, res: Response) => {
+  res.sendStatus(200);
+})
 
 app.listen(port, () => {
   console.log(`server running on http://localhost:${port}`)
