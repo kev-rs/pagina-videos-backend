@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use(router);
 app.get('/', (req: Request, res: Response) => {
-  res.sendStatus(200);
+  res.status(200).send('Hiii I\'m kev & this is my first backend deployed on a vps');
 })
 
 app.listen(port, () => {
